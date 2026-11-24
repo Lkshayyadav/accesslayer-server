@@ -7,6 +7,7 @@ import concentrationRouter from './concentration/concentration.routes';
 import keyLpRewardsRouter from './lp-rewards/lp-rewards.routes';
 import errorCatalogRouter from './error-catalog/error-catalog.routes';
 import accountRouter from './account/account.routes';
+import collectionsRouter from './collections/collections.routes';
 import { supportAttachmentUploadRouter, supportRouter } from './support/support.routes';
 import { supportAgentRouter } from './support/support-agent.routes';
 import {
@@ -218,6 +219,9 @@ router.use('/errors', routeBodySizeLimit('default'), errorCatalogRouter);
 
 // Personal data export and account deletion for the signed-in user (#1325).
 router.use('/me', routeBodySizeLimit('default'), accountRouter);
+
+// Curated collections of keys (#1353).
+router.use('/collections', routeBodySizeLimit('default'), collectionsRouter);
 
 // User support tickets (#1327).
 router.use('/support', routeBodySizeLimit('default'), supportRouter);

@@ -1,0 +1,47 @@
+// prisma/schema/collection.prisma
+// Curated collections of keys with editor ordering and follow tracking (#1353).
+
+model Collection {
+  id            String             @id @default(cuid())
+  slug          String             @unique
+  title         String
+  description   String?
+  published     Boolean            @default(false)
+  createdBy     String             // editor wallet
+  items         CollectionItem[]
+  follows       CollectionFollow[]
+  followerCount Int                @default(0)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  @@index([published, createdAt(sort: Desc)])
+  @@map("collections")
+}
+
+model CollectionItem {
+  id           String     @id @default(cuid())
+  collectionId String
+  keyId        String
+  position     Int
+  notes        String?
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@unique([collectionId, position])
+  @@unique([collectionId, keyId])
+  @@index([collectionId, position])
+  @@map("collection_items")
+}
+
+model CollectionFollow {
+  id           String     @id @default(cuid())
+  collectionId String
+  wallet       String
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+
+  @@unique([collectionId, wallet])
+  @@index([wallet])
+  @@map("collection_follows")
+}
