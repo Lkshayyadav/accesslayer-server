@@ -1,0 +1,20 @@
+// prisma/schema/public-profile.prisma
+// Public portfolio profile and handle registry (#1355).
+
+model PublicProfile {
+  id               String   @id @default(cuid())
+  wallet           String   @unique
+  handle           String   @unique
+  enabled          Boolean  @default(true)
+  showHoldings     Boolean  @default(true)
+  showPnl          Boolean  @default(true)
+  showKeyCount     Boolean  @default(true)
+  showJoined       Boolean  @default(true)
+  showWallet       Boolean  @default(false)
+  hideExactAmounts Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([handle])
+  @@map("public_profiles")
+}

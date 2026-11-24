@@ -7,6 +7,10 @@ import concentrationRouter from './concentration/concentration.routes';
 import keyLpRewardsRouter from './lp-rewards/lp-rewards.routes';
 import errorCatalogRouter from './error-catalog/error-catalog.routes';
 import accountRouter from './account/account.routes';
+import {
+   publicProfileMeRouter,
+   publicProfilesPublicRouter,
+} from './public-profile/public-profile.routes';
 import { supportAttachmentUploadRouter, supportRouter } from './support/support.routes';
 import { supportAgentRouter } from './support/support-agent.routes';
 import {
@@ -218,6 +222,10 @@ router.use('/errors', routeBodySizeLimit('default'), errorCatalogRouter);
 
 // Personal data export and account deletion for the signed-in user (#1325).
 router.use('/me', routeBodySizeLimit('default'), accountRouter);
+
+// Public portfolio profile and handle registry (#1355).
+router.use('/me', routeBodySizeLimit('default'), publicProfileMeRouter);
+router.use('/public/profiles', routeBodySizeLimit('default'), publicProfilesPublicRouter);
 
 // User support tickets (#1327).
 router.use('/support', routeBodySizeLimit('default'), supportRouter);
